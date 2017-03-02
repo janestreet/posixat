@@ -1,0 +1,26 @@
+opam-version: "1.2"
+maintainer: "opensource@janestreet.com"
+authors: ["Jane Street Group, LLC <opensource@janestreet.com>"]
+homepage: "https://github.com/janestreet/posixat"
+bug-reports: "https://github.com/janestreet/posixat/issues"
+dev-repo: "https://github.com/janestreet/posixat.git"
+license: "Apache-2.0"
+build: [
+  ["jbuilder" "build-package" "posixat" "-j" jobs]
+]
+depends: [
+  "base"
+  "jbuilder"
+  "sexplib"
+]
+available: [ ocaml-version >= "4.03.0" ]
+descr: "
+Bindings to the posix *at functions
+
+Posixat is a small library that just binds the various *at posix
+functions.
+
+The posix *at functions takes the current working directory as a file
+descriptor. For instance this allows to reliably maintain several
+working directories inside the same process.
+"
