@@ -13,12 +13,12 @@
 (rule
  ((targets (posixat_generated_stubs.c))
   (deps    (gen/gen.exe))
-  (action "${<} c > ${@}")))
+  (action (bash "${<} c > ${@}"))))
 
 (rule
  ((targets (posixat_generated.ml))
   (deps    (gen/gen.exe))
-  (action "${<} ml > ${@}")))
+  (action (bash "${<} ml > ${@}"))))
 
 
 (jbuild_version jane_street)
