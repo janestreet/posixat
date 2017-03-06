@@ -8,7 +8,7 @@
   (lint
    (pps (ppx_sexp_conv
          -type-conv-keep-w32=both
-         -apply=type_conv)))))
+         -apply=type_conv ppx_driver.runner)))))
 
 (rule
  ((targets (posixat_generated_stubs.c))
