@@ -33,24 +33,10 @@ module Open_flag = struct
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
-  [@@deriving_inline sexp_of]
-  let sexp_of_t : t -> Sexplib.Sexp.t =
-    function
-    | O_RDONLY  -> Sexplib.Sexp.Atom "O_RDONLY"
-    | O_WRONLY  -> Sexplib.Sexp.Atom "O_WRONLY"
-    | O_RDWR  -> Sexplib.Sexp.Atom "O_RDWR"
-    | O_NONBLOCK  -> Sexplib.Sexp.Atom "O_NONBLOCK"
-    | O_APPEND  -> Sexplib.Sexp.Atom "O_APPEND"
-    | O_CREAT  -> Sexplib.Sexp.Atom "O_CREAT"
-    | O_TRUNC  -> Sexplib.Sexp.Atom "O_TRUNC"
-    | O_EXCL  -> Sexplib.Sexp.Atom "O_EXCL"
-    | O_NOCTTY  -> Sexplib.Sexp.Atom "O_NOCTTY"
-    | O_DSYNC  -> Sexplib.Sexp.Atom "O_DSYNC"
-    | O_SYNC  -> Sexplib.Sexp.Atom "O_SYNC"
-    | O_RSYNC  -> Sexplib.Sexp.Atom "O_RSYNC"
-    | O_SHARE_DELETE  -> Sexplib.Sexp.Atom "O_SHARE_DELETE"
-    | O_CLOEXEC  -> Sexplib.Sexp.Atom "O_CLOEXEC"
-  [@@@end]
+#if ocaml_version >= (4, 06, 0)
+    | O_KEEPEXEC
+#endif
+  [@@deriving sexp_of]
 end
 
 module At_flag = struct
@@ -59,14 +45,7 @@ module At_flag = struct
     | AT_SYMLINK_FOLLOW
     | AT_SYMLINK_NOFOLLOW
     | AT_REMOVEDIR
-  [@@deriving_inline sexp_of]
-  let sexp_of_t : t -> Sexplib.Sexp.t =
-    function
-    | AT_EACCESS  -> Sexplib.Sexp.Atom "AT_EACCESS"
-    | AT_SYMLINK_FOLLOW  -> Sexplib.Sexp.Atom "AT_SYMLINK_FOLLOW"
-    | AT_SYMLINK_NOFOLLOW  -> Sexplib.Sexp.Atom "AT_SYMLINK_NOFOLLOW"
-    | AT_REMOVEDIR  -> Sexplib.Sexp.Atom "AT_REMOVEDIR"
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module Access_permission = struct
@@ -75,14 +54,7 @@ module Access_permission = struct
     | W_OK
     | X_OK
     | F_OK
-  [@@deriving_inline sexp_of]
-  let sexp_of_t : t -> Sexplib.Sexp.t =
-    function
-    | R_OK  -> Sexplib.Sexp.Atom "R_OK"
-    | W_OK  -> Sexplib.Sexp.Atom "W_OK"
-    | X_OK  -> Sexplib.Sexp.Atom "X_OK"
-    | F_OK  -> Sexplib.Sexp.Atom "F_OK"
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module File_perm = struct
@@ -100,17 +72,7 @@ module File_kind = struct
     | S_LNK
     | S_FIFO
     | S_SOCK
-  [@@deriving_inline sexp_of]
-  let sexp_of_t : t -> Sexplib.Sexp.t =
-    function
-    | S_REG  -> Sexplib.Sexp.Atom "S_REG"
-    | S_DIR  -> Sexplib.Sexp.Atom "S_DIR"
-    | S_CHR  -> Sexplib.Sexp.Atom "S_CHR"
-    | S_BLK  -> Sexplib.Sexp.Atom "S_BLK"
-    | S_LNK  -> Sexplib.Sexp.Atom "S_LNK"
-    | S_FIFO  -> Sexplib.Sexp.Atom "S_FIFO"
-    | S_SOCK  -> Sexplib.Sexp.Atom "S_SOCK"
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module Stats = struct
@@ -128,51 +90,5 @@ module Stats = struct
     ; st_mtime : float
     ; st_ctime : float
     }
-  [@@deriving_inline sexp_of]
-  let sexp_of_t : t -> Sexplib.Sexp.t =
-    function
-    | { st_dev = v_st_dev; st_ino = v_st_ino; st_kind = v_st_kind;
-        st_perm = v_st_perm; st_nlink = v_st_nlink; st_uid = v_st_uid;
-        st_gid = v_st_gid; st_rdev = v_st_rdev; st_size = v_st_size;
-        st_atime = v_st_atime; st_mtime = v_st_mtime; st_ctime = v_st_ctime }
-      ->
-      let bnds = []  in
-      let arg = sexp_of_float v_st_ctime  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_ctime"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_float v_st_mtime  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_mtime"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_float v_st_atime  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_atime"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int64 v_st_size  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_size"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_rdev  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_rdev"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_gid  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_gid"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_uid  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_uid"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_nlink  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_nlink"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = File_perm.sexp_of_t v_st_perm  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_perm"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = File_kind.sexp_of_t v_st_kind  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_kind"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_ino  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_ino"; arg]  in
-      let bnds = bnd :: bnds  in
-      let arg = sexp_of_int v_st_dev  in
-      let bnd = Sexplib.Sexp.List [Sexplib.Sexp.Atom "st_dev"; arg]  in
-      let bnds = bnd :: bnds  in Sexplib.Sexp.List bnds
-
-  [@@@end]
+  [@@deriving sexp_of]
 end

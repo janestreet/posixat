@@ -4,8 +4,7 @@
   (c_names (posixat_stubs posixat_generated_stubs))
   ;; No deps outside of the compiler distribution!
   (libraries (base unix sexplib))
-  (preprocess no_preprocessing)
-  (lint
+  (preprocess
    (pps (ppx_sexp_conv
          -type-conv-keep-w32=both
          -apply=type_conv ppx_driver.runner)))))

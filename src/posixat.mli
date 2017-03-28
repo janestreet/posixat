@@ -24,9 +24,10 @@ module Open_flag : sig
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+#if ocaml_version >= (4, 06, 0)
+    | O_KEEPEXEC
+#endif
+  [@@deriving sexp_of]
 end
 
 module At_flag : sig
@@ -35,9 +36,7 @@ module At_flag : sig
     | AT_SYMLINK_FOLLOW
     | AT_SYMLINK_NOFOLLOW
     | AT_REMOVEDIR
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module Access_permission : sig
@@ -46,9 +45,7 @@ module Access_permission : sig
     | W_OK
     | X_OK
     | F_OK
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module File_kind : sig
@@ -60,16 +57,12 @@ module File_kind : sig
     | S_LNK
     | S_FIFO
     | S_SOCK
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module File_perm : sig
   type t = int
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 module Stats : sig
@@ -87,9 +80,7 @@ module Stats : sig
     ; st_mtime : float
     ; st_ctime : float
     }
-  [@@deriving_inline sexp_of]
-  val sexp_of_t : t -> Sexplib.Sexp.t
-  [@@@end]
+  [@@deriving sexp_of]
 end
 
 val at_fdcwd : unit -> Fd.t
