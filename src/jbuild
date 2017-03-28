@@ -19,5 +19,4 @@
   (deps    (gen/gen.exe))
   (action (bash "${<} ml > ${@}"))))
 
-
 (jbuild_version 1)
