@@ -33,7 +33,7 @@ module Open_flag = struct
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
-#if ocaml_version >= (4, 06, 0)
+#if ocaml_version >= (4, 05, 0)
     | O_KEEPEXEC
 #endif
   [@@deriving sexp_of]
