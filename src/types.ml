@@ -33,6 +33,7 @@ module Open_flag = struct
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
+    | O_KEEPEXEC
   [@@deriving_inline sexp_of]
   let sexp_of_t : t -> Sexplib.Sexp.t =
     function
@@ -50,6 +51,7 @@ module Open_flag = struct
     | O_RSYNC  -> Sexplib.Sexp.Atom "O_RSYNC"
     | O_SHARE_DELETE  -> Sexplib.Sexp.Atom "O_SHARE_DELETE"
     | O_CLOEXEC  -> Sexplib.Sexp.Atom "O_CLOEXEC"
+    | O_KEEPEXEC  -> Sexplib.Sexp.Atom "O_KEEPEXEC"
   [@@@end]
 end
 

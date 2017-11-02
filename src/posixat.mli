@@ -24,6 +24,7 @@ module Open_flag : sig
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
+    | O_KEEPEXEC
   [@@deriving_inline sexp_of]
   val sexp_of_t : t -> Sexplib.Sexp.t
   [@@@end]

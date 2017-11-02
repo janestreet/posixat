@@ -1,5 +1,5 @@
 opam-version: "1.2"
-version: "v0.9.0"
+version: "v0.9.1"
 maintainer: "opensource@janestreet.com"
 authors: ["Jane Street Group, LLC <opensource@janestreet.com>"]
 homepage: "https://github.com/janestreet/posixat"
@@ -10,9 +10,9 @@ build: [
   ["jbuilder" "build" "--only-packages" "posixat" "--root" "." "-j" jobs "@install"]
 ]
 depends: [
-  "base"     {>= "v0.9" & < "v0.10"}
+  "base"     {>= "v0.9.4" & < "v0.10"}
   "jbuilder" {build & >= "1.0+beta2"}
-  "sexplib"  {>= "v0.9" & < "v0.10"}
+  "sexplib"  {>= "v0.9.3" & < "v0.10"}
 ]
 available: [ ocaml-version >= "4.03.0" ]
 descr: "
