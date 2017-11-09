@@ -19,7 +19,7 @@ module Param = struct
   let ml_type = function
     | Dirfd   -> "Fd.t"
     | Path    -> "string"
-    | Flags s -> String.capitalize s ^ ".t list"
+    | Flags s -> String.capitalize_ascii s ^ ".t list"
     | Int     -> "int"
     | Perm    -> "File_perm.t"
 
