@@ -1,5 +1,6 @@
 (library
  ((name posixat_test)
+(flags (:standard -safe-string))
   (libraries (posixat
               shexp.bigstring-io
               core

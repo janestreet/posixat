@@ -24,7 +24,7 @@ let%expect_test _ =
                   ~perm:0o777)
         ~finally:Unix.close ~f:(fun fd ->
           let s = "Hello, world!" in
-          assert (Unix.write fd ~buf:s = String.length s));
+          assert (Unix.write_substring fd ~buf:s = String.length s));
 
       find tmpdir;
       [%expect {|
