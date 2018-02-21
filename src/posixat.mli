@@ -24,9 +24,7 @@ module Open_flag : sig
     | O_RSYNC
     | O_SHARE_DELETE
     | O_CLOEXEC
-#if ocaml_version >= (4, 05, 0)
-    | O_KEEPEXEC
-#endif
+    | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
   [@@deriving sexp_of]
 end
 
