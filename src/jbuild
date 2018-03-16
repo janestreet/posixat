@@ -8,7 +8,7 @@
   (preprocess
    (pps (ppx_optcomp ppx_sexp_conv
          -type-conv-keep-w32=both
-         -apply=optcomp,type_conv ppx_driver.runner)))))
+         -apply=optcomp,type_conv ppxlib.runner)))))
 
 (rule
  ((targets (posixat_generated_stubs.c))

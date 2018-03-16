@@ -52,7 +52,7 @@ let%expect_test _ =
           let rec loop acc =
             match Unix.readdir_opt dh with
             | Some fname -> loop (fname :: acc)
-            | None -> List.sort acc ~cmp:String.compare
+            | None -> List.sort acc ~compare:String.compare
           in
           loop [])
       in
