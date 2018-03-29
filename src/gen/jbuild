@@ -1,6 +1,5 @@
 (executables
  ((names (gen))
-(flags (:standard -safe-string))
   (libraries ())
   (preprocess no_preprocessing)))
 

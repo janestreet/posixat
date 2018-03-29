@@ -3,7 +3,6 @@
   (public_name posixat)
   (c_names (posixat_stubs posixat_generated_stubs))
   ;; No deps outside of the compiler distribution!
-  (flags (:standard -safe-string))
   (libraries (base unix sexplib))
   (preprocess
    (pps (ppx_optcomp ppx_sexp_conv

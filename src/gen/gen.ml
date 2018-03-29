@@ -27,7 +27,7 @@ module Param = struct
     match t with
     | Dirfd | Int | Perm -> sprintf "Int_val(%s)" var
     | Flags s -> sprintf "caml_convert_flag_list(%s, shexp_%s_table)" var s
-    | Path    -> sprintf "caml_strdup(String_val(%s))" var
+    | Path    -> sprintf "caml_stat_strdup(String_val(%s))" var
 end
 
 module Result = struct

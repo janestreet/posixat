@@ -1,5 +1,10 @@
 #include "common.h"
 
+#ifndef caml_stat_strdup
+/* pre 4.06 compatibility */
+#define caml_stat_strdup caml_strdup
+#endif
+
 #if defined(_WIN32)
 
 NA(at_fdcwd);
@@ -161,7 +166,7 @@ CAMLprim value shexp_fstatat(value v_dir, value v_path, value v_flags)
 
   caml_unix_check_path(v_path, "fstatat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   flags = caml_convert_flag_list(v_flags, shexp_at_flag_table);
 
   caml_enter_blocking_section();
@@ -196,7 +201,7 @@ CAMLprim value shexp_readlinkat(value v_dir, value v_path)
 
   caml_unix_check_path(v_path, "readlinkat");
   dir  = Int_val(v_dir);
-  path = caml_strdup(String_val(v_path));
+  path = caml_stat_strdup(String_val(v_path));
 
   caml_enter_blocking_section();
   res = readlinkat(dir, path, buf, sizeof(buf) - 1);

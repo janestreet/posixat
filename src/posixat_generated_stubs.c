@@ -30,7 +30,7 @@ CAMLprim value shexp_openat(value v_dir, value v_path, value v_flags, value v_pe
 
   caml_unix_check_path(v_path, "openat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   flags = caml_convert_flag_list(v_flags, shexp_open_flag_table);
   perm  = Int_val(v_perm);
 
@@ -56,7 +56,7 @@ CAMLprim value shexp_faccessat(value v_dir, value v_path, value v_mode, value v_
 
   caml_unix_check_path(v_path, "faccessat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   mode  = caml_convert_flag_list(v_mode, shexp_access_permission_table);
   flags = caml_convert_flag_list(v_flags, shexp_at_flag_table);
 
@@ -82,7 +82,7 @@ CAMLprim value shexp_fchmodat(value v_dir, value v_path, value v_perm, value v_f
 
   caml_unix_check_path(v_path, "fchmodat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   perm  = Int_val(v_perm);
   flags = caml_convert_flag_list(v_flags, shexp_at_flag_table);
 
@@ -109,7 +109,7 @@ CAMLprim value shexp_fchownat(value v_dir, value v_path, value v_uid, value v_gi
 
   caml_unix_check_path(v_path, "fchownat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   uid   = Int_val(v_uid);
   gid   = Int_val(v_gid);
   flags = caml_convert_flag_list(v_flags, shexp_at_flag_table);
@@ -135,7 +135,7 @@ CAMLprim value shexp_mkdirat(value v_dir, value v_path, value v_perm)
 
   caml_unix_check_path(v_path, "mkdirat");
   dir  = Int_val(v_dir);
-  path = caml_strdup(String_val(v_path));
+  path = caml_stat_strdup(String_val(v_path));
   perm = Int_val(v_perm);
 
   caml_enter_blocking_section();
@@ -159,7 +159,7 @@ CAMLprim value shexp_unlinkat(value v_dir, value v_path, value v_flags)
 
   caml_unix_check_path(v_path, "unlinkat");
   dir   = Int_val(v_dir);
-  path  = caml_strdup(String_val(v_path));
+  path  = caml_stat_strdup(String_val(v_path));
   flags = caml_convert_flag_list(v_flags, shexp_at_flag_table);
 
   caml_enter_blocking_section();
@@ -189,7 +189,7 @@ CAMLprim value shexp_mkfifoat(value v_dir, value v_path, value v_perm)
 
   caml_unix_check_path(v_path, "mkfifoat");
   dir  = Int_val(v_dir);
-  path = caml_strdup(String_val(v_path));
+  path = caml_stat_strdup(String_val(v_path));
   perm = Int_val(v_perm);
 
   caml_enter_blocking_section();
@@ -218,9 +218,9 @@ CAMLprim value shexp_linkat(value v_olddir, value v_oldpath, value v_newdir, val
   caml_unix_check_path(v_oldpath, "linkat");
   caml_unix_check_path(v_newpath, "linkat");
   olddir  = Int_val(v_olddir);
-  oldpath = caml_strdup(String_val(v_oldpath));
+  oldpath = caml_stat_strdup(String_val(v_oldpath));
   newdir  = Int_val(v_newdir);
-  newpath = caml_strdup(String_val(v_newpath));
+  newpath = caml_stat_strdup(String_val(v_newpath));
   flags   = caml_convert_flag_list(v_flags, shexp_at_flag_table);
 
   caml_enter_blocking_section();
@@ -247,9 +247,9 @@ CAMLprim value shexp_renameat(value v_olddir, value v_oldpath, value v_newdir, v
   caml_unix_check_path(v_oldpath, "renameat");
   caml_unix_check_path(v_newpath, "renameat");
   olddir  = Int_val(v_olddir);
-  oldpath = caml_strdup(String_val(v_oldpath));
+  oldpath = caml_stat_strdup(String_val(v_oldpath));
   newdir  = Int_val(v_newdir);
-  newpath = caml_strdup(String_val(v_newpath));
+  newpath = caml_stat_strdup(String_val(v_newpath));
 
   caml_enter_blocking_section();
   res = renameat(olddir, oldpath, newdir, newpath);
@@ -273,9 +273,9 @@ CAMLprim value shexp_symlinkat(value v_oldpath, value v_newdir, value v_newpath)
 
   caml_unix_check_path(v_oldpath, "symlinkat");
   caml_unix_check_path(v_newpath, "symlinkat");
-  oldpath = caml_strdup(String_val(v_oldpath));
+  oldpath = caml_stat_strdup(String_val(v_oldpath));
   newdir  = Int_val(v_newdir);
-  newpath = caml_strdup(String_val(v_newpath));
+  newpath = caml_stat_strdup(String_val(v_newpath));
 
   caml_enter_blocking_section();
   res = symlinkat(oldpath, newdir, newpath);
