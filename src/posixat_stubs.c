@@ -70,7 +70,9 @@ int shexp_open_flag_table[] = {
   O_SYNC,
   O_RSYNC,
   0, /* O_SHARE_DELETE (windows only) */
-  O_CLOEXEC
+  O_CLOEXEC,
+  0, /* KEEPEXEC means clear O_CLOEXEC */
+  O_NOFOLLOW
 };
 
 int shexp_at_flag_table[] = {
