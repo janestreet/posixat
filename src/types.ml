@@ -12,9 +12,10 @@ module Fd = struct
 
   let sexp_of_t t =
     match info t with
-    | Unix_fd n      -> sexp_of_int n
-    | Win32_handle h -> List [Atom "HANDLE"; Atom (Printf.sprintf "0x%Lx" h)]
-    | Win32_socket s -> List [Atom "SOCKET"; Atom (Printf.sprintf "%Lx" s)]
+    | Unix_fd n -> sexp_of_int n
+    | Win32_handle h -> List [ Atom "HANDLE"; Atom (Printf.sprintf "0x%Lx" h) ]
+    | Win32_socket s -> List [ Atom "SOCKET"; Atom (Printf.sprintf "%Lx" s) ]
+  ;;
 end
 
 module Open_flag = struct
@@ -35,44 +36,48 @@ module Open_flag = struct
     | O_CLOEXEC
     | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
     | O_NOFOLLOW
+    | O_DIRECTORY
   [@@deriving sexp_of]
 
   let of_unix_open_flag (flag : Unix.open_flag) : t =
     match flag with
-    | O_RDONLY       -> O_RDONLY
-    | O_WRONLY       -> O_WRONLY
-    | O_RDWR         -> O_RDWR
-    | O_NONBLOCK     -> O_NONBLOCK
-    | O_APPEND       -> O_APPEND
-    | O_CREAT        -> O_CREAT
-    | O_TRUNC        -> O_TRUNC
-    | O_EXCL         -> O_EXCL
-    | O_NOCTTY       -> O_NOCTTY
-    | O_DSYNC        -> O_DSYNC
-    | O_SYNC         -> O_SYNC
-    | O_RSYNC        -> O_RSYNC
+    | O_RDONLY -> O_RDONLY
+    | O_WRONLY -> O_WRONLY
+    | O_RDWR -> O_RDWR
+    | O_NONBLOCK -> O_NONBLOCK
+    | O_APPEND -> O_APPEND
+    | O_CREAT -> O_CREAT
+    | O_TRUNC -> O_TRUNC
+    | O_EXCL -> O_EXCL
+    | O_NOCTTY -> O_NOCTTY
+    | O_DSYNC -> O_DSYNC
+    | O_SYNC -> O_SYNC
+    | O_RSYNC -> O_RSYNC
     | O_SHARE_DELETE -> O_SHARE_DELETE
-    | O_CLOEXEC      -> O_CLOEXEC
-    | O_KEEPEXEC     -> O_KEEPEXEC
+    | O_CLOEXEC -> O_CLOEXEC
+    | O_KEEPEXEC -> O_KEEPEXEC
+  ;;
 
   let to_unix_open_flag_exn t : Unix.open_flag =
     match t with
-    | O_RDONLY       -> O_RDONLY
-    | O_WRONLY       -> O_WRONLY
-    | O_RDWR         -> O_RDWR
-    | O_NONBLOCK     -> O_NONBLOCK
-    | O_APPEND       -> O_APPEND
-    | O_CREAT        -> O_CREAT
-    | O_TRUNC        -> O_TRUNC
-    | O_EXCL         -> O_EXCL
-    | O_NOCTTY       -> O_NOCTTY
-    | O_DSYNC        -> O_DSYNC
-    | O_SYNC         -> O_SYNC
-    | O_RSYNC        -> O_RSYNC
+    | O_RDONLY -> O_RDONLY
+    | O_WRONLY -> O_WRONLY
+    | O_RDWR -> O_RDWR
+    | O_NONBLOCK -> O_NONBLOCK
+    | O_APPEND -> O_APPEND
+    | O_CREAT -> O_CREAT
+    | O_TRUNC -> O_TRUNC
+    | O_EXCL -> O_EXCL
+    | O_NOCTTY -> O_NOCTTY
+    | O_DSYNC -> O_DSYNC
+    | O_SYNC -> O_SYNC
+    | O_RSYNC -> O_RSYNC
     | O_SHARE_DELETE -> O_SHARE_DELETE
-    | O_CLOEXEC      -> O_CLOEXEC
-    | O_KEEPEXEC     -> O_KEEPEXEC
-    | O_NOFOLLOW     -> failwith "[Unix.open_flag] does not support O_NOFOLLOW"
+    | O_CLOEXEC -> O_CLOEXEC
+    | O_KEEPEXEC -> O_KEEPEXEC
+    | O_NOFOLLOW -> failwith "[Unix.open_flag] does not support O_NOFOLLOW"
+    | O_DIRECTORY -> failwith "[Unix.open_flag] does not support O_DIRECTORY"
+  ;;
 end
 
 module At_flag = struct
@@ -113,15 +118,15 @@ end
 
 module Stats = struct
   type t = Unix.LargeFile.stats =
-    { st_dev   : int
-    ; st_ino   : int
-    ; st_kind  : File_kind.t
-    ; st_perm  : File_perm.t
+    { st_dev : int
+    ; st_ino : int
+    ; st_kind : File_kind.t
+    ; st_perm : File_perm.t
     ; st_nlink : int
-    ; st_uid   : int
-    ; st_gid   : int
-    ; st_rdev  : int
-    ; st_size  : int64
+    ; st_uid : int
+    ; st_gid : int
+    ; st_rdev : int
+    ; st_size : int64
     ; st_atime : float
     ; st_mtime : float
     ; st_ctime : float

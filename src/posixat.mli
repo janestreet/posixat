@@ -26,11 +26,11 @@ module Open_flag : sig
     | O_CLOEXEC
     | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
     | O_NOFOLLOW
+    | O_DIRECTORY
   [@@deriving sexp_of]
 
   (* Raises when passed O_NOFOLLOW which is not a valid [open_flag] *)
   val to_unix_open_flag_exn : t -> Unix.open_flag
-
   val of_unix_open_flag : Unix.open_flag -> t
 end
 
@@ -65,21 +65,20 @@ module File_kind : sig
 end
 
 module File_perm : sig
-  type t = int
-  [@@deriving sexp_of]
+  type t = int [@@deriving sexp_of]
 end
 
 module Stats : sig
   type t = Unix.LargeFile.stats =
-    { st_dev   : int
-    ; st_ino   : int
-    ; st_kind  : File_kind.t
-    ; st_perm  : File_perm.t
+    { st_dev : int
+    ; st_ino : int
+    ; st_kind : File_kind.t
+    ; st_perm : File_perm.t
     ; st_nlink : int
-    ; st_uid   : int
-    ; st_gid   : int
-    ; st_rdev  : int
-    ; st_size  : int64
+    ; st_uid : int
+    ; st_gid : int
+    ; st_rdev : int
+    ; st_size : int64
     ; st_atime : float
     ; st_mtime : float
     ; st_ctime : float
@@ -88,13 +87,7 @@ module Stats : sig
 end
 
 val at_fdcwd : unit -> Fd.t
-
-val openat
-  :  dir:Fd.t
-  -> path:string
-  -> flags:Open_flag.t list
-  -> perm:File_perm.t
-  -> Fd.t
+val openat : dir:Fd.t -> path:string -> flags:Open_flag.t list -> perm:File_perm.t -> Fd.t
 
 val faccessat
   :  dir:Fd.t
@@ -103,12 +96,7 @@ val faccessat
   -> flags:At_flag.t list
   -> unit
 
-val fchmodat
-  :  dir:Fd.t
-  -> path:string
-  -> perm:File_perm.t
-  -> flags:At_flag.t list
-  -> unit
+val fchmodat : dir:Fd.t -> path:string -> perm:File_perm.t -> flags:At_flag.t list -> unit
 
 val fchownat
   :  dir:Fd.t
@@ -118,23 +106,9 @@ val fchownat
   -> flags:At_flag.t list
   -> unit
 
-val mkdirat
-  :  dir:Fd.t
-  -> path:string
-  -> perm:File_perm.t
-  -> unit
-
-val unlinkat
-  :  dir:Fd.t
-  -> path:string
-  -> flags:At_flag.t list
-  -> unit
-
-val mkfifoat
-  :  dir:Fd.t
-  -> path:string
-  -> perm:File_perm.t
-  -> unit
+val mkdirat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit
+val unlinkat : dir:Fd.t -> path:string -> flags:At_flag.t list -> unit
+val mkfifoat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit
 
 val linkat
   :  olddir:Fd.t
@@ -144,30 +118,9 @@ val linkat
   -> flags:At_flag.t list
   -> unit
 
-val renameat
-  :  olddir:Fd.t
-  -> oldpath:string
-  -> newdir:Fd.t
-  -> newpath:string
-  -> unit
-
-val symlinkat
-  :  oldpath:string
-  -> newdir:Fd.t
-  -> newpath:string
-  -> unit
-
-val fstatat
-  :  dir:Fd.t
-  -> path:string
-  -> flags:At_flag.t list
-  -> Stats.t
-
-val readlinkat
-  :  dir:Fd.t
-  -> path:string
-  -> string
-
+val renameat : olddir:Fd.t -> oldpath:string -> newdir:Fd.t -> newpath:string -> unit
+val symlinkat : oldpath:string -> newdir:Fd.t -> newpath:string -> unit
+val fstatat : dir:Fd.t -> path:string -> flags:At_flag.t list -> Stats.t
+val readlinkat : dir:Fd.t -> path:string -> string
 val fdopendir : Fd.t -> Unix.dir_handle
-
 val has_mkfifoat : bool

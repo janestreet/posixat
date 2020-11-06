@@ -9,11 +9,7 @@ external fstatat
   -> Stats.t
   = "shexp_fstatat"
 
-external readlinkat
-  :  dir:Fd.t
-  -> path:string
-  -> string
-  = "shexp_readlinkat"
+external readlinkat : dir:Fd.t -> path:string -> string = "shexp_readlinkat"
 
 include Posixat_generated
 
