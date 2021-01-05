@@ -1,4 +1,3 @@
-#+UUID: 5f43a9ac-902f-31fa-7698-f672b02c592b
 * POSIXAT
 
 Posixat is a small library that binds the various *at posix
