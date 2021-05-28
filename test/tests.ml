@@ -1,5 +1,6 @@
 open Core
 open Expect_test_helpers_core
+module Unix = Core_unix
 module B = Shexp_bigstring_io.Std.Bigstring
 
 let%expect_test _ =
