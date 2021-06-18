@@ -5,10 +5,10 @@ module B = Shexp_bigstring_io.Std.Bigstring
 
 let%expect_test _ =
   let tmpdir_prefix = Filename.temp_dir_name ^/ "shexp_posixat_test" in
-  let find dir = ignore (ksprintf Sys.command "cd %S && find" dir : int) in
+  let find dir = ignore (ksprintf Sys_unix.command "cd %S && find" dir : int) in
   protectx
     (Unix.mkdtemp tmpdir_prefix)
-    ~finally:(fun tmpdir -> ignore (ksprintf Sys.command "rm -rf %S" tmpdir : int))
+    ~finally:(fun tmpdir -> ignore (ksprintf Sys_unix.command "rm -rf %S" tmpdir : int))
     ~f:(fun tmpdir ->
       let tmpdirfd = Unix.openfile tmpdir ~mode:[ O_RDONLY ] in
       Posixat.mkdirat ~dir:tmpdirfd ~path:"blah" ~perm:0o777;
