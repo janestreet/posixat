@@ -1,10 +1,5 @@
 #include "common.h"
 
-#ifndef caml_stat_strdup
-/* pre 4.06 compatibility */
-#define caml_stat_strdup caml_strdup
-#endif
-
 #if defined(_WIN32)
 
 NA(at_fdcwd);
