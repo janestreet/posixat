@@ -146,7 +146,7 @@ static value alloc_stats(struct stat *buf)
   Field (v, 0) = Val_int (buf->st_dev);
   Field (v, 1) = Val_int (buf->st_ino);
   Field (v, 2) = caml_unix_cst_to_constr(buf->st_mode & S_IFMT, file_kind_table,
-                                         sizeof(file_kind_table) / sizeof(int), 0);
+                               sizeof(file_kind_table) / sizeof(int), 0);
   Field (v, 3) = Val_int (buf->st_mode & 07777);
   Field (v, 4) = Val_int (buf->st_nlink);
   Field (v, 5) = Val_int (buf->st_uid);
