@@ -1,4 +1,5 @@
 #include "common.h"
+#include <caml/version.h>
 
 #if defined(_WIN32)
 
@@ -112,7 +113,12 @@ static int file_kind_table[] = {
   S_IFSOCK
 };
 
+#if OCAML_VERSION_MAJOR >= 5
+extern value caml_unix_cst_to_constr(int n, int * tbl, int size, int deflt);
+#else
 extern value cst_to_constr(int n, int * tbl, int size, int deflt);
+#define caml_unix_cst_to_constr cst_to_constr
+#endif
 
 static value alloc_stats(struct stat *buf)
 {
@@ -139,8 +145,8 @@ static value alloc_stats(struct stat *buf)
   v = caml_alloc(12, 0);
   Field (v, 0) = Val_int (buf->st_dev);
   Field (v, 1) = Val_int (buf->st_ino);
-  Field (v, 2) = cst_to_constr(buf->st_mode & S_IFMT, file_kind_table,
-                               sizeof(file_kind_table) / sizeof(int), 0);
+  Field (v, 2) = caml_unix_cst_to_constr(buf->st_mode & S_IFMT, file_kind_table,
+                                         sizeof(file_kind_table) / sizeof(int), 0);
   Field (v, 3) = Val_int (buf->st_mode & 07777);
   Field (v, 4) = Val_int (buf->st_nlink);
   Field (v, 5) = Val_int (buf->st_uid);
