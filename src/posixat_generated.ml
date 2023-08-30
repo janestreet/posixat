@@ -35,12 +35,7 @@ external fchownat
   -> unit
   = "shexp_fchownat"
 
-external mkdirat
-  :  dir:Fd.t
-  -> path:string
-  -> perm:File_perm.t
-  -> unit
-  = "shexp_mkdirat"
+external mkdirat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit = "shexp_mkdirat"
 
 external unlinkat
   :  dir:Fd.t
@@ -49,12 +44,7 @@ external unlinkat
   -> unit
   = "shexp_unlinkat"
 
-external mkfifoat
-  :  dir:Fd.t
-  -> path:string
-  -> perm:File_perm.t
-  -> unit
-  = "shexp_mkfifoat"
+external mkfifoat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit = "shexp_mkfifoat"
 
 external linkat
   :  olddir:Fd.t
