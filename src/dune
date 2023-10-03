@@ -5,7 +5,7 @@
    -apply=optcomp,type_conv)))
 
 (rule (targets posixat_generated_stubs.c) (deps (:first_dep gen/gen.exe))
- (action (bash "%{first_dep} c > %{targets}")) (mode fallback))
+ (action (bash "%{first_dep} c > %{targets}")))
 
 (rule (targets posixat_generated.ml) (deps (:first_dep gen/gen.exe))
- (action (bash "%{first_dep} ml > %{targets}")) (mode fallback))
+ (action (bash "%{first_dep} ml > %{targets}")))
