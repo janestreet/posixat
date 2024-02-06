@@ -1,4 +1,6 @@
-(library (name posixat_test)
+(library
+ (name posixat_test)
  (libraries posixat shexp.bigstring-io core core_unix
-  expect_test_helpers_core core_unix.sys_unix)
- (preprocess (pps ppx_jane)))
+   expect_test_helpers_core core_unix.sys_unix)
+ (preprocess
+  (pps ppx_jane)))
