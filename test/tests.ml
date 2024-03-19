@@ -16,7 +16,7 @@ let%expect_test _ =
       [%expect {|
         .
         ./blah
-      |}];
+        |}];
       let dirfd = Posixat.openat ~dir:tmpdirfd ~path:"blah" ~flags:[ O_RDONLY ] ~perm:0 in
       protectx
         (Posixat.openat ~dir:dirfd ~path:"foo" ~flags:[ O_WRONLY; O_CREAT ] ~perm:0o777)
@@ -28,21 +28,21 @@ let%expect_test _ =
       [%expect {|
         .
         ./blah
-        ./blah/foo |}];
+        ./blah/foo
+        |}];
       Posixat.renameat ~olddir:tmpdirfd ~oldpath:"blah" ~newdir:tmpdirfd ~newpath:"x";
       find tmpdir;
       [%expect {|
         .
         ./x
-        ./x/foo |}];
+        ./x/foo
+        |}];
       protectx
         (Posixat.openat ~dir:dirfd ~path:"foo" ~flags:[ O_RDONLY ] ~perm:0o777)
         ~finally:Unix.close
         ~f:B.read_all
       |> print_string;
-      [%expect {|
-        Hello, world!
-      |}];
+      [%expect {| Hello, world! |}];
       let l =
         protectx (Posixat.fdopendir tmpdirfd) ~finally:Unix.closedir ~f:(fun dh ->
           let rec loop acc =
@@ -53,7 +53,5 @@ let%expect_test _ =
           loop [])
       in
       print_s [%sexp (l : string list)];
-      [%expect {|
-        (. .. x)
-      |}])
+      [%expect {| (. .. x) |}])
 ;;

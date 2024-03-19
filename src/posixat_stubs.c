@@ -69,7 +69,8 @@ int shexp_open_flag_table[] = {
   O_CLOEXEC,
   0, /* KEEPEXEC means clear O_CLOEXEC */
   O_NOFOLLOW,
-  O_DIRECTORY
+  O_DIRECTORY,
+  O_PATH
 };
 
 int shexp_at_flag_table[] = {

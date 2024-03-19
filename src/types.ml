@@ -37,6 +37,7 @@ module Open_flag = struct
     | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
     | O_NOFOLLOW
     | O_DIRECTORY
+    | O_PATH
   [@@deriving sexp_of]
 
   let of_unix_open_flag (flag : Unix.open_flag) : t =
@@ -77,6 +78,7 @@ module Open_flag = struct
     | O_KEEPEXEC -> O_KEEPEXEC
     | O_NOFOLLOW -> failwith "[Unix.open_flag] does not support O_NOFOLLOW"
     | O_DIRECTORY -> failwith "[Unix.open_flag] does not support O_DIRECTORY"
+    | O_PATH -> failwith "[Unix.open_flag] does not support O_PATH"
   ;;
 end
 

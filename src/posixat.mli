@@ -27,9 +27,11 @@ module Open_flag : sig
     | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
     | O_NOFOLLOW
     | O_DIRECTORY
+    | O_PATH
   [@@deriving sexp_of]
 
-  (* Raises when passed O_NOFOLLOW which is not a valid [open_flag] *)
+  (* Raises when passed O_NOFOLLOW, O_DIRECTORY, or O_PATH, which are not valid
+     [open_flag]'s *)
   val to_unix_open_flag_exn : t -> Unix.open_flag
   val of_unix_open_flag : Unix.open_flag -> t
 end

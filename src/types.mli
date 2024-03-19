@@ -28,6 +28,7 @@ module Open_flag : sig
     | O_KEEPEXEC [@if ocaml_version >= (4, 05, 0)]
     | O_NOFOLLOW
     | O_DIRECTORY
+    | O_PATH
   [@@deriving sexp_of]
 
   val of_unix_open_flag : Unix.open_flag -> t
