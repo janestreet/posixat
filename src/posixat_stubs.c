@@ -51,6 +51,9 @@ CAMLprim value shexp_at_fdcwd()
 #ifndef O_RSYNC
 #define O_RSYNC 0
 #endif
+#ifndef O_PATH
+#define O_PATH 0
+#endif
 
 int shexp_open_flag_table[] = {
   O_RDONLY,
