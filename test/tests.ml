@@ -13,7 +13,8 @@ let%expect_test _ =
       let tmpdirfd = Unix.openfile tmpdir ~mode:[ O_RDONLY ] in
       Posixat.mkdirat ~dir:tmpdirfd ~path:"blah" ~perm:0o777;
       find tmpdir;
-      [%expect {|
+      [%expect
+        {|
         .
         ./blah
         |}];
@@ -25,14 +26,16 @@ let%expect_test _ =
           let s = "Hello, world!" in
           assert (Unix.write_substring fd ~buf:s = String.length s));
       find tmpdir;
-      [%expect {|
+      [%expect
+        {|
         .
         ./blah
         ./blah/foo
         |}];
       Posixat.renameat ~olddir:tmpdirfd ~oldpath:"blah" ~newdir:tmpdirfd ~newpath:"x";
       find tmpdir;
-      [%expect {|
+      [%expect
+        {|
         .
         ./x
         ./x/foo
