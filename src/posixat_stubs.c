@@ -5,6 +5,7 @@
 
 NA(at_fdcwd);
 NA(fstatat);
+NA(readlinkat);
 NA(fdopendir);
 
 CAMLprim value shexp_fd_info(value fd)
