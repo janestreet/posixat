@@ -14,3 +14,4 @@ external readlinkat : dir:Fd.t -> path:string -> string = "shexp_readlinkat"
 include Posixat_generated
 
 external fdopendir : Fd.t -> Unix.dir_handle = "shexp_fdopendir"
+external openat2 : dir:Fd.t -> path:string -> Open_how.t -> Fd.t = "shexp_openat2"
