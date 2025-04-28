@@ -33,6 +33,6 @@
 #endif
 
 extern int shexp_at_flag_table[];
+extern int shexp_rename_flag_table[];
 extern int shexp_open_flag_table[];
 extern int shexp_access_permission_table[];
-

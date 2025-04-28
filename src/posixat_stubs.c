@@ -1,5 +1,6 @@
 #include "common.h"
 #include <caml/version.h>
+#include <caml/threads.h>
 
 #if defined(_WIN32)
 
@@ -25,6 +26,9 @@ CAMLprim value shexp_fd_info(value fd)
 }
 
 #else /* defined(_WIN32) */
+
+#include <linux/openat2.h>
+#include <sys/syscall.h>
 
 /* +-----------------------------------------------------------------+
    | AT_FDCWD                                                        |
@@ -83,11 +87,25 @@ int shexp_at_flag_table[] = {
   AT_REMOVEDIR
 };
 
+int shexp_rename_flag_table[] = {
+  RENAME_EXCHANGE,
+  RENAME_NOREPLACE,
+  RENAME_WHITEOUT
+};
+
 int shexp_access_permission_table[] = {
   R_OK,
   W_OK,
   X_OK,
   F_OK
+};
+
+int shexp_resolve_flag_table[] = {
+  RESOLVE_BENEATH,
+  RESOLVE_IN_ROOT,
+  RESOLVE_NO_MAGICLINKS,
+  RESOLVE_NO_SYMLINKS,
+  RESOLVE_NO_XDEV,
 };
 
 /* +-----------------------------------------------------------------+
@@ -250,6 +268,43 @@ CAMLprim value shexp_fd_info(value fd)
   value res = caml_alloc_small(1, 2);
   Field(res, 0) = fd;
   return res;
+}
+
+
+/* +-----------------------------------------------------------------+
+   | openat2                                                         |
+   +-----------------------------------------------------------------+ */
+
+CAMLprim value shexp_openat2(value v_dir, value v_pathname, value v_open_how)
+{
+  CAMLparam3(v_dir, v_pathname, v_open_how);
+  struct open_how open_how;
+  value v_flags, v_perm, v_resolve;
+  int flags, perm, resolve, dir, fd;
+  char* path;
+
+  caml_unix_check_path(v_pathname, "openat2");
+  dir = Int_val(v_dir);
+  path = caml_stat_strdup(String_val(v_pathname));
+  v_flags = Field(v_open_how, 0);
+  v_perm = Field(v_open_how, 1);
+  v_resolve = Field(v_open_how, 2);
+  flags = caml_convert_flag_list(v_flags, shexp_open_flag_table);
+  perm = Int_val(v_perm);
+  resolve = caml_convert_flag_list(v_resolve, shexp_resolve_flag_table);
+  open_how.flags = flags;
+  open_how.mode = perm;
+  open_how.resolve = resolve;
+
+  // Identical to [caml_enter_blocking_secion], which is the historical name, see
+  // https://ocaml.org/manual/5.3/intfc.html
+  caml_release_runtime_system();
+  fd = syscall(SYS_openat2, dir, path, &open_how, sizeof(struct open_how));
+  caml_stat_free(path);
+  caml_acquire_runtime_system();
+
+  if (fd == -1) uerror("openat2", v_pathname);
+  CAMLreturn(Val_int(fd));
 }
 
 #endif  /* defined(_WIN32) */
