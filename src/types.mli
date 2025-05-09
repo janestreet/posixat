@@ -1,3 +1,5 @@
+@@ portable
+
 open Base
 
 module Fd : sig

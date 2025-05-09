@@ -8,7 +8,7 @@ module Fd = struct
     | Win32_socket of int64
     | Unix_fd of int
 
-  external info : t -> info = "shexp_fd_info"
+  external info : t -> info @@ portable = "shexp_fd_info"
 
   let sexp_of_t t =
     match info t with
