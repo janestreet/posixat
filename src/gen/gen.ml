@@ -139,6 +139,7 @@ let gen_external ((name, params, result, _on_osx) : stub) =
       (match result with
        | Unit -> "unit"
        | Fd -> "Fd.t");
+    ();
     pr "  = \"shexp_%s\"" name
 ;;
 
