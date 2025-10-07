@@ -8,7 +8,7 @@ module Fd = struct
     | Win32_socket of int64
     | Unix_fd of int
 
-  external info : t -> info = "shexp_fd_info"
+  external info : t -> info @@ portable = "shexp_fd_info"
 
   let sexp_of_t t =
     match info t with
@@ -91,6 +91,14 @@ module At_flag = struct
   [@@deriving sexp_of]
 end
 
+module Rename_flag = struct
+  type t =
+    | RENAME_EXCHANGE
+    | RENAME_NOREPLACE
+    | RENAME_WHITEOUT
+  [@@deriving sexp_of]
+end
+
 module Access_permission = struct
   type t = Unix.access_permission =
     | R_OK
@@ -132,6 +140,27 @@ module Stats = struct
     ; st_atime : float
     ; st_mtime : float
     ; st_ctime : float
+    }
+  [@@deriving sexp_of]
+end
+
+module Resolve_flags = struct
+  type t =
+    | RESOLVE_BENEATH
+    | RESOLVE_IN_ROOT
+    | RESOLVE_NO_MAGICLINKS
+    | RESOLVE_NO_SYMLINKS
+    | RESOLVE_NO_XDEV
+  [@@deriving sexp_of]
+end
+
+module Open_how = struct
+  type t =
+    { flags : Open_flag.t list
+    ; perm : File_perm.t
+        (* In the C struct, this is called "mode", but we're calling it [perm] to
+           align with the definition of [openat]*)
+    ; resolve : Resolve_flags.t list
     }
   [@@deriving sexp_of]
 end

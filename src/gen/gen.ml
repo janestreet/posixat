@@ -60,6 +60,10 @@ let stubs : stub list =
   ; "mkfifoat", [ dir; path; perm ], Unit, false
   ; "linkat", [ olddir; oldpath; newdir; newpath; at_flags ], Unit, true
   ; "renameat", [ olddir; oldpath; newdir; newpath ], Unit, true
+  ; ( "renameat2"
+    , [ olddir; oldpath; newdir; newpath; "flags", Flags "rename_flag" ]
+    , Unit
+    , true )
   ; "symlinkat", [ oldpath; newdir; newpath ], Unit, true
   ]
 ;;
@@ -135,6 +139,7 @@ let gen_external ((name, params, result, _on_osx) : stub) =
       (match result with
        | Unit -> "unit"
        | Fd -> "Fd.t");
+    pr "  @@ portable";
     pr "  = \"shexp_%s\"" name
 ;;
 

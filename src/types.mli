@@ -1,3 +1,5 @@
+@@ portable
+
 open Base
 
 module Fd : sig
@@ -44,6 +46,14 @@ module At_flag : sig
   [@@deriving sexp_of]
 end
 
+module Rename_flag : sig
+  type t =
+    | RENAME_EXCHANGE
+    | RENAME_NOREPLACE
+    | RENAME_WHITEOUT
+  [@@deriving sexp_of]
+end
+
 module Access_permission : sig
   type t = Unix.access_permission =
     | R_OK
@@ -83,6 +93,25 @@ module Stats : sig
     ; st_atime : float
     ; st_mtime : float
     ; st_ctime : float
+    }
+  [@@deriving sexp_of]
+end
+
+module Resolve_flags : sig
+  type t =
+    | RESOLVE_BENEATH
+    | RESOLVE_IN_ROOT
+    | RESOLVE_NO_MAGICLINKS
+    | RESOLVE_NO_SYMLINKS
+    | RESOLVE_NO_XDEV (** No RESOLVE_CACHED in our version of Linux *)
+  [@@deriving sexp_of]
+end
+
+module Open_how : sig
+  type t =
+    { flags : Open_flag.t list
+    ; perm : File_perm.t
+    ; resolve : Resolve_flags.t list
     }
   [@@deriving sexp_of]
 end

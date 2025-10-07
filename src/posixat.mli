@@ -1,3 +1,5 @@
+@@ portable
+
 (** Bindings for the *at family of POSIX functions *)
 
 open Base
@@ -45,6 +47,14 @@ module At_flag : sig
   [@@deriving sexp_of]
 end
 
+module Rename_flag : sig
+  type t =
+    | RENAME_EXCHANGE
+    | RENAME_NOREPLACE
+    | RENAME_WHITEOUT
+  [@@deriving sexp_of]
+end
+
 module Access_permission : sig
   type t = Unix.access_permission =
     | R_OK
@@ -88,6 +98,25 @@ module Stats : sig
   [@@deriving sexp_of]
 end
 
+module Resolve_flags : sig
+  type t =
+    | RESOLVE_BENEATH
+    | RESOLVE_IN_ROOT
+    | RESOLVE_NO_MAGICLINKS
+    | RESOLVE_NO_SYMLINKS
+    | RESOLVE_NO_XDEV (** No RESOLVE_CACHED in our version of Linux *)
+  [@@deriving sexp_of]
+end
+
+module Open_how : sig
+  type t =
+    { flags : Open_flag.t list
+    ; perm : File_perm.t
+    ; resolve : Resolve_flags.t list
+    }
+  [@@deriving sexp_of]
+end
+
 val at_fdcwd : unit -> Fd.t
 val openat : dir:Fd.t -> path:string -> flags:Open_flag.t list -> perm:File_perm.t -> Fd.t
 
@@ -121,8 +150,18 @@ val linkat
   -> unit
 
 val renameat : olddir:Fd.t -> oldpath:string -> newdir:Fd.t -> newpath:string -> unit
+
+val renameat2
+  :  olddir:Fd.t
+  -> oldpath:string
+  -> newdir:Fd.t
+  -> newpath:string
+  -> flags:Rename_flag.t list
+  -> unit
+
 val symlinkat : oldpath:string -> newdir:Fd.t -> newpath:string -> unit
 val fstatat : dir:Fd.t -> path:string -> flags:At_flag.t list -> Stats.t
 val readlinkat : dir:Fd.t -> path:string -> string
 val fdopendir : Fd.t -> Unix.dir_handle
 val has_mkfifoat : bool
+val openat2 : dir:Fd.t -> path:string -> Open_how.t -> Fd.t
