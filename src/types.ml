@@ -158,8 +158,8 @@ module Open_how = struct
   type t =
     { flags : Open_flag.t list
     ; perm : File_perm.t
-        (* In the C struct, this is called "mode", but we're calling it [perm] to
-           align with the definition of [openat]*)
+        (* In the C struct, this is called "mode", but we're calling it [perm] to align
+           with the definition of [openat] *)
     ; resolve : Resolve_flags.t list
     }
   [@@deriving sexp_of]
