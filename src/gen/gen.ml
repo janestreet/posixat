@@ -19,8 +19,8 @@ module Param = struct
 
   let ml_type = function
     | Dirfd -> "Fd.t"
-    | Path -> "string"
-    | Flags s -> String.capitalize_ascii s ^ ".t list"
+    | Path -> "string" ^ " @ local"
+    | Flags s -> String.capitalize_ascii s ^ ".t list" ^ " @ local"
     | Int -> "int"
     | Perm -> "File_perm.t"
   ;;

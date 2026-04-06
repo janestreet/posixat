@@ -118,50 +118,66 @@ module Open_how : sig
 end
 
 val at_fdcwd : unit -> Fd.t
-val openat : dir:Fd.t -> path:string -> flags:Open_flag.t list -> perm:File_perm.t -> Fd.t
+
+val openat
+  :  dir:Fd.t
+  -> path:string @ local
+  -> flags:Open_flag.t list
+  -> perm:File_perm.t
+  -> Fd.t
 
 val faccessat
   :  dir:Fd.t
-  -> path:string
-  -> mode:Access_permission.t list
-  -> flags:At_flag.t list
+  -> path:string @ local
+  -> mode:Access_permission.t list @ local
+  -> flags:At_flag.t list @ local
   -> unit
 
-val fchmodat : dir:Fd.t -> path:string -> perm:File_perm.t -> flags:At_flag.t list -> unit
+val fchmodat
+  :  dir:Fd.t
+  -> path:string @ local
+  -> perm:File_perm.t
+  -> flags:At_flag.t list @ local
+  -> unit
 
 val fchownat
   :  dir:Fd.t
-  -> path:string
+  -> path:string @ local
   -> uid:int
   -> gid:int
-  -> flags:At_flag.t list
+  -> flags:At_flag.t list @ local
   -> unit
 
-val mkdirat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit
-val unlinkat : dir:Fd.t -> path:string -> flags:At_flag.t list -> unit
-val mkfifoat : dir:Fd.t -> path:string -> perm:File_perm.t -> unit
+val mkdirat : dir:Fd.t -> path:string @ local -> perm:File_perm.t -> unit
+val unlinkat : dir:Fd.t -> path:string @ local -> flags:At_flag.t list @ local -> unit
+val mkfifoat : dir:Fd.t -> path:string @ local -> perm:File_perm.t -> unit
 
 val linkat
   :  olddir:Fd.t
-  -> oldpath:string
+  -> oldpath:string @ local
   -> newdir:Fd.t
-  -> newpath:string
-  -> flags:At_flag.t list
+  -> newpath:string @ local
+  -> flags:At_flag.t list @ local
   -> unit
 
-val renameat : olddir:Fd.t -> oldpath:string -> newdir:Fd.t -> newpath:string -> unit
+val renameat
+  :  olddir:Fd.t
+  -> oldpath:string @ local
+  -> newdir:Fd.t
+  -> newpath:string @ local
+  -> unit
 
 val renameat2
   :  olddir:Fd.t
-  -> oldpath:string
+  -> oldpath:string @ local
   -> newdir:Fd.t
-  -> newpath:string
-  -> flags:Rename_flag.t list
+  -> newpath:string @ local
+  -> flags:Rename_flag.t list @ local
   -> unit
 
-val symlinkat : oldpath:string -> newdir:Fd.t -> newpath:string -> unit
-val fstatat : dir:Fd.t -> path:string -> flags:At_flag.t list -> Stats.t
-val readlinkat : dir:Fd.t -> path:string -> string
+val symlinkat : oldpath:string @ local -> newdir:Fd.t -> newpath:string @ local -> unit
+val fstatat : dir:Fd.t -> path:string @ local -> flags:At_flag.t list @ local -> Stats.t
+val readlinkat : dir:Fd.t -> path:string @ local -> string
 val fdopendir : Fd.t -> Unix.dir_handle
 val has_mkfifoat : bool
-val openat2 : dir:Fd.t -> path:string -> Open_how.t -> Fd.t
+val openat2 : dir:Fd.t -> path:string @ local -> Open_how.t @ local -> Fd.t
